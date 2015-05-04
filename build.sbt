@@ -61,11 +61,11 @@ resolvers += "Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/rep
 
 resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
 
-resolvers += "linter" at "http://hairyfotr.github.io/linteRepo/releases"
+resolvers += "Linter Repository" at "https://hairyfotr.github.io/linteRepo/releases"
 
-addCompilerPlugin("com.foursquare.lint" %% "linter" % "0.1.3")
+addCompilerPlugin("com.foursquare.lint" %% "linter" % "0.1.8")
 
-libraryDependencies += "com.foursquare.lint" %% "linter" % "0.1.3"
+libraryDependencies += "com.foursquare.lint" %% "linter" % "0.1.8"
 
 //scalacOptions += "-P:linter:disable:OLOLOUseHypot+CloseSourceFile+OptionOfOption"
 
