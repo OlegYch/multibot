@@ -13,8 +13,13 @@ object Cmd {
   def unapply(s: String) = if (s.contains(' ')) Some(s.split(" ", 2).toList) else None
 }
 
-case class Multibot(outputSanitizer: String => Array[String], cache: InterpretersCache,
-                    botname: String, channels: List[String], settings: Builder[PircBotX] => Builder[PircBotX] = identity) {
+case class Multibot(
+   inputSanitizer: String => String,
+   outputSanitizer: String => Array[String],
+   cache: InterpretersCache,
+   botname: String,
+   channels: List[String],
+   settings: Builder[PircBotX] => Builder[PircBotX] = identity) {
 
   val LAMBDABOT = "lambdabot"
   val ADMINS = List("imeredith", "lopex", "tpolecat", "OlegYch")
@@ -42,7 +47,7 @@ case class Multibot(outputSanitizer: String => Array[String], cache: Interpreter
             else e.getBot.getUserChannelDao.getChannel(channel).send().message(m)
         })
       }
-      def interpreters = InterpretersHandler(cache, httpHandler, sendLines)
+      def interpreters = InterpretersHandler(cache, httpHandler, sendLines, inputSanitizer)
       def admin = AdminHandler(e.getBot.getNick + ":", ADMINS, _ => (), _ => (), sendLines) //todo
       DieOn.error {
         val msg = Msg(channel, sender, e.getMessage)

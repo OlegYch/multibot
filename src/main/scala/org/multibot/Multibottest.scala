@@ -26,6 +26,7 @@ object Multibottest {
         .take(NUMLINES)
 
   val ircMultibot = Multibot(
+    identity
     ircOutputSanitizer,
     cache,
     if (PRODUCTION) "multibot_" else "multibot__",
@@ -37,6 +38,7 @@ object Multibottest {
   )
 
   val gitterMultibot = Multibot(
+    GitterInputSanitizer.sanitize
     outputSanitizer = gitterOutputSanitizer,
     cache = cache,
     botname = if (PRODUCTION) "multibot1" else "multibot2",

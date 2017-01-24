@@ -19,13 +19,18 @@ object GitterInputSanitizer {
   }
 }
 
-case class InterpretersHandler(cache: InterpretersCache, http: HttpHandler, sendLines: (String, String) => Unit) {
+case class InterpretersHandler(
+  cache: InterpretersCache,
+  http: HttpHandler,
+  sendLines: (String, String) => Unit,
+  inputSanitizer: String => String) {
+
   private var pythonSession = "" //todo
   def serve(implicit msg: Msg): Unit = msg.message match {
     case Cmd("!" :: m :: Nil) => sendLines(msg.channel, cache.scalaInterpreter(msg.channel) { (si, cout) =>
       import scala.tools.nsc.interpreter.Results._
 
-      si interpret GitterInputSanitizer.sanitize(m) match {
+      si interpret inputSanitizer(m) match {
         case Success => cout.toString.replaceAll("(?m:^res[0-9]+: )", "")
         case Error => cout.toString.replaceAll("^<console>:[0-9]+: ", "")
         case Incomplete => "error: unexpected EOF found, incomplete expression"
