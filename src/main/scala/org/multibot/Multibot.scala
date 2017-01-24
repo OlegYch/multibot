@@ -13,9 +13,9 @@ object Cmd {
   def unapply(s: String) = if (s.contains(' ')) Some(s.split(" ", 2).toList) else None
 }
 
-case class Multibot(cache: InterpretersCache, botname: String, channels: List[String],
-                    settings: Builder[PircBotX] => Builder[PircBotX] = identity) {
-  val NUMLINES = 5
+case class Multibot(messageSanitizer: String => Array[String], cache: InterpretersCache,
+    botname: String, channels: List[String], settings: Builder[PircBotX] => Builder[PircBotX] = identity) {
+
   val LAMBDABOT = "lambdabot"
   val ADMINS = List("imeredith", "lopex", "tpolecat", "OlegYch")
   val httpHandler = HttpHandler()
@@ -37,21 +37,10 @@ case class Multibot(cache: InterpretersCache, botname: String, channels: List[St
       def sendLines(channel: String, message: String) = {
         println(message)
 
-        val shortMessage = message
-            .replace("\r", "")
-            .replace("`", "\'")
-            .split("\n")
-            .filter(_.nonEmpty)
-            .take(NUMLINES)
-
-        shortMessage
-            .map(m => s"```$m```")
-            .foreach(m => {
-              if (channel == sender) e.respond(m)
-              else e.getBot.getUserChannelDao.getChannel(channel).send().message(m)
-            })
-
-
+        messageSanitizer(message).foreach(m => {
+            if (channel == sender) e.respond(m)
+            else e.getBot.getUserChannelDao.getChannel(channel).send().message(m)
+        })
       }
       def interpreters = InterpretersHandler(cache, httpHandler, sendLines)
       def admin = AdminHandler(e.getBot.getNick + ":", ADMINS, _ => (), _ => (), sendLines) //todo
