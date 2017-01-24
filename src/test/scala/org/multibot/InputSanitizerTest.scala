@@ -5,7 +5,7 @@ import org.scalatest.{Assertion, FlatSpec}
 class InputSanitizerTest extends FlatSpec {
 
   def ensureSanitizedInput(in: String, expected: String): Assertion =
-    assert(InputSanitizer.sanitize(in) === expected)
+    assert(GitterInputSanitizer.sanitize(in) === expected)
 
   def ensureNoSanitization(in: String) : Assertion =
     ensureSanitizedInput(in, in)
