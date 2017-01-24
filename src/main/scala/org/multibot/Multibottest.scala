@@ -25,7 +25,10 @@ object Multibottest {
         .filter(_.nonEmpty)
         .take(NUMLINES)
 
-  val ircMultibot = Multibot(ircOutputSanitizer, cache, if (PRODUCTION) "multibot_" else "multibot__",
+  val ircMultibot = Multibot(
+    ircOutputSanitizer,
+    cache,
+    if (PRODUCTION) "multibot_" else "multibot__",
     if (PRODUCTION)
       List("#clojure.pl", "#scala.pl", "#scala", "#scalaz", "#scala-fr", "#lift", "#playframework",
         "#bostonpython", "#fp-in-scala", "#CourseraProgfun", "#shapeless", "#akka", "#sbt", "#scala-monocle")
