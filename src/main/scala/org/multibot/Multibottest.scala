@@ -9,7 +9,7 @@ object Multibottest {
 
   val NUMLINES = 5
 
-  def gitterSanitizer(message: String): Array[String] =
+  def gitterOutputSanitizer(message: String): Array[String] =
     message
       .replace("\r", "")
       .replace("`", "\'")
@@ -18,14 +18,14 @@ object Multibottest {
       .take(NUMLINES)
       .map(m => s"```$m```")
 
-  def ircSanitizer(message: String): Array[String] =
+  def ircOutputSanitizer(message: String): Array[String] =
     message
         .replace("\r", "")
         .split("\n")
         .filter(_.nonEmpty)
         .take(NUMLINES)
 
-  val ircMultibot = Multibot(ircSanitizer, cache, if (PRODUCTION) "multibot_" else "multibot__",
+  val ircMultibot = Multibot(ircOutputSanitizer, cache, if (PRODUCTION) "multibot_" else "multibot__",
     if (PRODUCTION)
       List("#clojure.pl", "#scala.pl", "#scala", "#scalaz", "#scala-fr", "#lift", "#playframework",
         "#bostonpython", "#fp-in-scala", "#CourseraProgfun", "#shapeless", "#akka", "#sbt", "#scala-monocle")
@@ -34,7 +34,7 @@ object Multibottest {
   )
 
   val gitterMultibot = Multibot(
-    messageSanitizer = gitterSanitizer,
+    outputSanitizer = gitterOutputSanitizer,
     cache = cache,
     botname = if (PRODUCTION) "multibot1" else "multibot2",
     channels = if (PRODUCTION) List("#scala/scala", "#sbt/sbt") else List("#OlegYch/multibot"),
