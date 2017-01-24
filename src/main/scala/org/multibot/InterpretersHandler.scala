@@ -4,12 +4,28 @@ import org.json4s.native.JsonMethods._
 import org.json4s.JsonAST._
 import org.json4s.JsonDSL._
 
+/** This allows users to write code blocks in
+  *  gitter that get parsed correctly here */
+object InputSanitizer {
+  def sanitize(in: String): String = {
+    val tripleBackquoted = "^```(.*)```$".r
+    val singleBackquoted = "^`(.*)`$".r
+
+    in match {
+      case tripleBackquoted(s) => s
+      case singleBackquoted(s) => s
+      case s => s
+    }
+  }
+}
+
 case class InterpretersHandler(cache: InterpretersCache, http: HttpHandler, sendLines: (String, String) => Unit) {
   private var pythonSession = "" //todo
   def serve(implicit msg: Msg): Unit = msg.message match {
     case Cmd("!" :: m :: Nil) => sendLines(msg.channel, cache.scalaInterpreter(msg.channel) { (si, cout) =>
       import scala.tools.nsc.interpreter.Results._
-      si interpret m match {
+
+      si interpret InputSanitizer.sanitize(m) match {
         case Success => cout.toString.replaceAll("(?m:^res[0-9]+: )", "")
         case Error => cout.toString.replaceAll("^<console>:[0-9]+: ", "")
         case Incomplete => "error: unexpected EOF found, incomplete expression"
