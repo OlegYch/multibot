@@ -6,10 +6,10 @@ mainClass in Compile := Some("org.multibot.Multibottest")
 updateOptions := updateOptions.value.withCachedResolution(true).withLatestSnapshots(false)
 publishArtifact in(Compile, packageDoc) := false
 enablePlugins(JavaAppPackaging)
-scalaVersion := "2.13.0"
+scalaVersion := "2.13.1"
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.28"
+  val scalazVersion = "7.2.30"
   val shapelessVersion = "2.3.3"
   val monocleVersion = "1.6.0-RC1"
   Seq(
@@ -39,8 +39,8 @@ scalacOptions ++= Seq("-feature:false", "-language:_", "-deprecation")
 
 autoCompilerPlugins := true
 
-addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
-libraryDependencies += "org.typelevel" %% "kind-projector" % "0.10.3"
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
+libraryDependencies += "org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full
 
 enablePlugins(BuildInfoPlugin)
 buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion, scalacOptions in(Compile, compile), libraryDependencies in(Compile, compile))

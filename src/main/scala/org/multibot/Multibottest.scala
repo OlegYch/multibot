@@ -47,7 +47,7 @@ object Multibottest {
     outputSanitizer = gitterOutputSanitizer,
     cache = cache,
     botname = if (PRODUCTION) "multibot1" else "multibot2",
-    channels = if (PRODUCTION) List("#scala/scala", "#scalaz/scalaz") else List("#OlegYch/multibot"),
+    channels = if (PRODUCTION) List("#scala/scala", "#scalaz/scalaz", "#OlegYch/multibot") else List("#OlegYch/multibot"),
     settings = _.addServer("irc.gitter.im").setServerPassword(gitterPass).
       setSocketFactory(javax.net.ssl.SSLSocketFactory.getDefault)
   )
