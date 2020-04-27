@@ -9,7 +9,7 @@ class InterpretersCacheTest extends AnyFunSuite {
       imain.interpret("1")
       out.toString.trim
     }
-    assert(r === "res0: Int = 1")
+    assert(r === "val res0: Int = 1")
   }
 
 }

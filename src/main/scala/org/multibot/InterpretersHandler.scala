@@ -31,7 +31,7 @@ case class InterpretersHandler(
       import scala.tools.nsc.interpreter.Results._
 
       si interpret inputSanitizer(m) match {
-        case Success => cout.toString.replaceAll("(?m:^res[0-9]+: )", "")
+        case Success => cout.toString.replaceAll("(?m:^val res[0-9]+: )", "")
         case Error => cout.toString.replaceAll("^<console>:[0-9]+: ", "")
         case Incomplete => "error: unexpected EOF found, incomplete expression"
       }
