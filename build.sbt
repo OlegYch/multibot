@@ -15,7 +15,6 @@ libraryDependencies ++= {
   Seq(
     "org.scalaz" %% "scalaz-iteratee" % scalazVersion,
     "org.scalaz" %% "scalaz-effect" % scalazVersion,
-    "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion,
     "com.github.julien-truffaut" %% "monocle-law" % monocleVersion,
