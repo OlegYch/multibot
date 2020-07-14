@@ -6,10 +6,10 @@ mainClass in Compile := Some("org.multibot.Multibottest")
 updateOptions := updateOptions.value.withCachedResolution(true).withLatestSnapshots(false)
 publishArtifact in(Compile, packageDoc) := false
 enablePlugins(JavaAppPackaging)
-scalaVersion := "2.13.2"
+scalaVersion := "2.13.3"
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.30"
+  val scalazVersion = "7.3.2"
   val shapelessVersion = "2.3.3"
   val monocleVersion = "1.6.0-RC1"
   Seq(
